@@ -34,7 +34,7 @@ public class GameCanvas extends JPanel {
         //1.Load Background
         try {
             background = ImageIO.read(new File("assets/images/background/1.png"));
-            player =ImageIO.read(new File("assets/images/players/straight/0.png"));
+            player =ImageIO.read(new File("assets/images/players/straight/sua.png"));
             enemy = ImageIO.read(new File("assets/images/enemies/level0/black/0.png"));
         } catch (IOException e) {
             e.printStackTrace();
@@ -43,9 +43,12 @@ public class GameCanvas extends JPanel {
 
     public void render () {
         //1.Draw everything on back buffer
-        backGraphics.drawImage(background,backGroundX,backGroundY,null);
-        backGraphics.drawImage(player,playerX,playerY,null);
-        backGraphics.drawImage(enemy,enemyX,enemyY,null);
+
+            backGraphics.drawImage(background,backGroundX,backGroundY,null);
+            backGraphics.drawImage(player,playerX,playerY,null);
+            backGraphics.drawImage(enemy,enemyX,enemyY,null);
+
+
         //2. Call repaint
         repaint();
     }
@@ -105,36 +108,31 @@ public class GameCanvas extends JPanel {
         }
 
         if(rightPressed){
+            if ( playerX >= 352){
+                playerX -= 5;
+            }
             vx += 5;
         }
         if(leftPressed){
+            if (playerX <= 0 ) {
+                playerX += 5;
+            }
             vx -= 5;
         }
         if(downPressed){
+            if(playerY >= 523){
+                vy -=5;
+            }
             vy += 5;
         }
         if(upPressed){
+            if(playerY <= 0){
+                vy +=5;
+            }
             vy -=5;
         }
-        if (playerX <= 0 ){
-            playerX +=1;
-        }else if (playerX >= 348 ){
-            playerX --;
-        }
-        else if (playerY <= 0){
-            playerY ++;
-        }else if (playerY >= 525){
-            playerY --;
-        }
-            else{
-                playerX = playerX + vx;
-                playerY = playerY + vy;
-
-            }
-
-
-
-
+            playerX = playerX + vx;
+            playerY = playerY + vy;
 
         backGroundY +=10;
         if (backGroundY == -300){
