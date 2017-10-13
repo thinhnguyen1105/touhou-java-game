@@ -103,9 +103,9 @@ public class GameCanvas extends JPanel {
         int vy = 0;
 
         enemyY++;
-        if ( enemyY >= 525){
-           enemyY--;
-        }
+//        if ( enemyY >= 525){
+//           enemyY--;
+//        }
 
         if(rightPressed){
             if ( playerX >= 352){
