@@ -33,7 +33,7 @@ public class Player {
 
 
     public Player(){
-        image = Utils.loadImage("assets/images/players/straight/0.png");
+        image = Utils.loadImage("assets/images/players/straight/sua.png");
     }
     public void render(Graphics backGraphics){
         backGraphics.drawImage(image,x,y,null);
