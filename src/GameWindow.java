@@ -1,3 +1,5 @@
+import touhou.Player;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -5,13 +7,14 @@ import java.awt.event.*;
 public class GameWindow extends JFrame {
     GameCanvas canvas;
     long lasTimeUpade ;
+    boolean check = true;
 
     public GameWindow() {
         this.setSize(800, 600);
 
         this.setBackground(Color.black);
 
-        this.canvas = new GameCanvas();
+        this.canvas = new GameCanvas(this);
 
         this.addWindowListener(new WindowAdapter() {
             @Override
@@ -48,7 +51,7 @@ public class GameWindow extends JFrame {
     }
 
     public void GameLoop() {
-        while (true) {
+        while (check) {
             long currentTime =System.nanoTime();
             if ( currentTime - lasTimeUpade >= 17000000){
                 canvas.run();
@@ -57,6 +60,11 @@ public class GameWindow extends JFrame {
             }
 
         }
+    }
+
+    public void endGame (){
+        check = false;
+        System.exit(0);
     }
 }
 
