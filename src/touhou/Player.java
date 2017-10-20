@@ -1,151 +1,154 @@
 package touhou;
 
+import bases.GameObject;
 import bases.Utils;
+import bases.Vector2D;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 
 import static java.awt.event.KeyEvent.VK_X;
 
-public class Player {
-    BufferedImage image;
-    public int x = 182 ;
-    public int y = 500;
+public class Player extends GameObject {
 
     boolean rightPressed;
     boolean leftPressed;
     boolean downPressed;
     boolean upPressed;
 
-    boolean xPressed ;
-    boolean already;
+    boolean xPressed;
 
-    final int SPEED =5;
-    final int LEFT =0;
+
+    boolean spellDisable;
+    final int COOL_DOWN_TIME = 10;
+    int coolDownTime;
+
+
+    final int SPEED = 5;
+    final int LEFT = 0;
     final int RIGHT = 350;
     final int TOP = 0;
     final int DOWN = 530;
 
-    Enemies enemy = new Enemies();
 
-
-    public Player(){
-        image = Utils.loadImage("assets/images/players/straight/sua.png");
-    }
-    public void render(Graphics backGraphics){
-        backGraphics.drawImage(image,x,y,null);
+    public Player() {
+        x = 182;
+        y = 500;
+        image = Utils.loadImage("assets/images/players/straight/0.png");
     }
 
 
-
-  public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode()== KeyEvent.VK_RIGHT){
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 
             rightPressed = true;
         }
-        if (e.getKeyCode() == KeyEvent.VK_LEFT){
+        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 
             leftPressed = true;
         }
-        if (e.getKeyCode() == KeyEvent.VK_UP){
+        if (e.getKeyCode() == KeyEvent.VK_UP) {
 
             upPressed = true;
         }
-        if(e.getKeyCode() == KeyEvent.VK_DOWN){
+        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 
             downPressed = true;
         }
-      if (e.getKeyCode() == VK_X){
-          if (!already) xPressed = true;
-      }
+        if (e.getKeyCode() == VK_X) {
+            xPressed = true;
+        }
 
     }
 
 
     public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode()== KeyEvent.VK_RIGHT){
+        if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
             rightPressed = false;
         }
-        if (e.getKeyCode() == KeyEvent.VK_LEFT){
+        if (e.getKeyCode() == KeyEvent.VK_LEFT) {
             leftPressed = false;
         }
-        if (e.getKeyCode() == KeyEvent.VK_UP){
+        if (e.getKeyCode() == KeyEvent.VK_UP) {
             upPressed = false;
         }
-        if(e.getKeyCode() == KeyEvent.VK_DOWN){
+        if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             downPressed = false;
         }
-        if ( e.getKeyCode() == VK_X){
-            already = false;
+        if (e.getKeyCode() == VK_X) {
+            xPressed = false;
         }
     }
 
 
+    public void run() {
+        move();
+        shoot();
 
+    }
 
-    public void run(){
+    private void move() {
         int vx = 0;
         int vy = 0;
 
 
-
-        if(rightPressed){
+        if (rightPressed) {
 
             vx += SPEED;
         }
-        if(leftPressed){
+        if (leftPressed) {
 
             vx -= SPEED;
         }
-        if(downPressed){
+        if (downPressed) {
 
             vy += SPEED;
         }
-        if(upPressed){
+        if (upPressed) {
 
             vy -= SPEED;
         }
         x = x + vx;
         y = y + vy;
 
-        x = (int) clamp(x,LEFT,RIGHT);
-        y = (int) clamp(y,TOP,DOWN);
-
+        x = (int) clamp(x, LEFT, RIGHT);
+        y = (int) clamp(y, TOP, DOWN);
 
 
     }
 
-    public void shoot(ArrayList<Bullets> bullets){
+
+    public void shoot() {
+        if (spellDisable) {
+            coolDownTime++;
+            if (coolDownTime >= COOL_DOWN_TIME) {
+                spellDisable = false;
+                coolDownTime = 0;
+            }
+            return;
+        }
         if (xPressed) {
-            already = true;
-            xPressed = false;
             Bullets newBullet = new Bullets();
             newBullet.x = x;
             newBullet.y = y;
-
-                bullets.add(newBullet);
-
-
+            GameObject.add(newBullet);
+            spellDisable = true;
         }
-
     }
 
 
-    private float clamp(float value , float min , float max ){
-        if (value < min ){
+    private float clamp(float value, float min, float max) {
+        if (value < min) {
             return min;
         }
-        if (value > max){
+        if (value > max) {
             return max;
         }
         return value;
     }
 
-    public Rectangle hitBox (){
-        return new Rectangle(x,y,32,48);
+    public Rectangle hitBox() {
+        return new Rectangle((int) x, (int) y, 32, 48);
     }
 
 }

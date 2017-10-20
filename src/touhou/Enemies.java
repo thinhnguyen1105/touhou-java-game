@@ -1,53 +1,71 @@
 package touhou;
 
+import bases.GameObject;
 import bases.Utils;
+import bases.Vector2D;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.util.ArrayList;
 
-public class Enemies {
-    BufferedImage image;
-    public int x = 182 ;
-    public int y = 50;
+public class Enemies extends GameObject {
     long lasTimeUpade;
 
-    final int SPEED =5;
+
+    final int LEFT = 0;
+    final int RIGHT = 350;
+    final int TOP = 0;
+    final int DOWN = 530;
+
 
     public Enemies() {
+        x = 182;
+        y = 50;
         image = Utils.loadImage("assets/images/enemies/level0/black/0.png");
         lasTimeUpade = System.nanoTime();
     }
 
-    public void render (Graphics backGraphics) {
-        backGraphics.drawImage(image,x,y,null);
+    public void run() {
+        double a = Math.random();
+        if (a < 0.2) {
+            x += 10;
+        } else if (a >= 0.2 && a < 0.4) {
+            x -= 10;
+        } else if (a >= 0.4 && a < 0.6) {
+            y -= 10;
+        } else if (a >= 0.6 && a < 0.8) {
+            y += 10;
+        }
 
+        x = (int) clamp(x, LEFT, RIGHT);
+        y = (int) clamp(y, TOP, DOWN);
+
+
+        shoot();
     }
 
-    public void run(){
-
-            y ++;
-
-
-
-    }
-
-    public void shoot(ArrayList<EnemyBullets> bullets){
+    public void shoot() {
         long currentTime = System.nanoTime();
-        if ( currentTime - lasTimeUpade >= 900000000){
-            System.out.println("yes");
+        if (currentTime - lasTimeUpade >= 200000000) {
             EnemyBullets newBullet = new EnemyBullets();
-            newBullet.x = x;
-            newBullet.y = y;
-            bullets.add(newBullet);
-            lasTimeUpade =  currentTime;
+            newBullet.x = (int) x;
+            newBullet.y = (int) y;
+            GameObject.add(newBullet);
+            lasTimeUpade = currentTime;
         }
 
 
     }
 
-    public Rectangle hitBox (){
-        return new Rectangle(x,y,34,50);
+    public Rectangle hitBox() {
+        return new Rectangle((int) x, (int) y, 34, 50);
+    }
+
+    private float clamp(float value, float min, float max) {
+        if (value < min) {
+            return min;
+        }
+        if (value > max) {
+            return max;
+        }
+        return value;
     }
 }

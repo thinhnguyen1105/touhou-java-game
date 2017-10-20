@@ -1,29 +1,24 @@
 package touhou;
 
+import bases.GameObject;
 import bases.Utils;
+import bases.Vector2D;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
-public class Bullets {
-    BufferedImage image;
-    public int x ;
-    public int y ;
+public class Bullets extends GameObject {
 
-    final int SPEED =10;
+    final int SPEED = 10;
 
-    public Bullets(){
+    public Bullets() {
         image = Utils.loadImage("assets/images/enemies/bullets/cyan.png");
     }
-    public void render(Graphics backGraphics){
-        backGraphics.drawImage(image,x,y,null);
-    }
 
-    public void run(){
+    public void run() {
         y -= SPEED;
     }
 
-    public Rectangle hitBox (){
-        return new Rectangle(x,y,16,16);
+    public Rectangle hitBox() {
+        return new Rectangle((int) x, (int) y, 16, 16);
     }
 }

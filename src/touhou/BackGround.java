@@ -1,20 +1,17 @@
 package touhou;
 
+import bases.GameObject;
 import bases.Utils;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class BackGround {
-    BufferedImage image;
-    public  int x = 0;
-    public int y = -4500;
-    public BackGround (){
-        image = Utils.loadImage("assets/images/background/1.png");
-    }
+public class BackGround extends GameObject {
 
-    public void render (Graphics backGraphic){
-       backGraphic.drawImage(image,x,y,null);
+    public BackGround (){
+        x = 0;
+        y = 0;
+        image = Utils.loadImage("assets/images/background/0.png");
     }
 
     public void run (){
