@@ -1,8 +1,10 @@
-package touhou;
+package touhou.player;
 
 import bases.GameObject;
 import bases.Utils;
 import bases.Vector2D;
+import bases.physics.BoxCollider;
+import touhou.enemies.Enemies;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -26,14 +28,14 @@ public class Player extends GameObject {
 
     final int SPEED = 5;
     final int LEFT = 0;
-    final int RIGHT = 350;
+    final int RIGHT = 370;
     final int TOP = 0;
-    final int DOWN = 530;
-
+    final int DOWN = 550;
+    public BoxCollider boxCollider;
 
     public Player() {
-        x = 182;
-        y = 500;
+       position.set(182,500);
+        this.boxCollider = new BoxCollider(32, 48);
         image = Utils.loadImage("assets/images/players/straight/0.png");
     }
 
@@ -82,38 +84,38 @@ public class Player extends GameObject {
 
 
     public void run() {
+        boxCollider.position.set(this.position);
         move();
         shoot();
-
+        Enemies enemy = GameObject.collideWith(this.boxCollider);
+        if (enemy != null){
+            enemy.getHit();
+        }
     }
 
+    public Vector2D velorcity = new Vector2D(0,0);
+
     private void move() {
-        int vx = 0;
-        int vy = 0;
-
-
+        velorcity.set(0,0);
         if (rightPressed) {
-
-            vx += SPEED;
+            velorcity.x += SPEED;
         }
         if (leftPressed) {
 
-            vx -= SPEED;
+            velorcity.x -= SPEED;
         }
         if (downPressed) {
 
-            vy += SPEED;
+            velorcity.y += SPEED;
         }
         if (upPressed) {
 
-            vy -= SPEED;
+            velorcity.y -= SPEED;
         }
-        x = x + vx;
-        y = y + vy;
+        position.addUp(velorcity);
 
-        x = (int) clamp(x, LEFT, RIGHT);
-        y = (int) clamp(y, TOP, DOWN);
-
+        position.x = (int) clamp(position.x,LEFT,RIGHT);
+        position.y = (int) clamp(position.y, TOP, DOWN);
 
     }
 
@@ -129,11 +131,13 @@ public class Player extends GameObject {
         }
         if (xPressed) {
             Bullets newBullet = new Bullets();
-            newBullet.x = x;
-            newBullet.y = y;
+            newBullet.position.set(position.x, position.y - (image.getHeight()/2));
             GameObject.add(newBullet);
             spellDisable = true;
+
+
         }
+
     }
 
 
@@ -147,8 +151,6 @@ public class Player extends GameObject {
         return value;
     }
 
-    public Rectangle hitBox() {
-        return new Rectangle((int) x, (int) y, 32, 48);
-    }
+
 
 }

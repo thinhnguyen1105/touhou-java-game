@@ -1,21 +1,9 @@
-import bases.NewRectangle;
-import bases.Vector2D;
-import com.sun.javafx.event.EventHandlerManager;
-import com.sun.tools.doclets.formats.html.SourceToHTMLConverter;
-import touhou.A;
-import touhou.Base;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Vector;
-import java.util.Scanner;
-
 public class Program {
 
 
     public static void main(String[] args) {
-//        GameWindow gameWindow = new GameWindow();
-//        gameWindow.GameLoop();
+        GameWindow gameWindow = new GameWindow();
+        gameWindow.GameLoop();
 
 //        Vector2D<Integer> numbers = new Vector2D<>();
 //        numbers.add(1);
@@ -32,9 +20,9 @@ public class Program {
 //
 //        v1.addUp(1,1);
 //        v1.addUp(v2);
-        NewRectangle r1= new NewRectangle(3,3,4,4);
-        NewRectangle r2= new NewRectangle(6,6,6,6);
-        NewRectangle.check(r1,r2);
+//        NewRectangle r1= new NewRectangle(3,3,4,4);
+//        NewRectangle r2= new NewRectangle(6,6,6,6);
+//        NewRectangle.check(r1,r2);
 
 
     }

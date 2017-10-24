@@ -1,6 +1,6 @@
-package touhou;
+package touhou.test;
 
-public class B extends Base{
+public class B extends Base {
 
     @Override
     public void say() {
