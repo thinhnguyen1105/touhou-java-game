@@ -1,17 +1,19 @@
 package bases;
 
 import bases.physics.BoxCollider;
+import bases.physics.PhysicsBody;
 import touhou.enemies.Enemies;
 import touhou.player.Bullets;
 import touhou.player.Player;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Vector;
 
 public class GameObject {
-    public Vector2D position ;
 
+    public Vector2D position ;
     public BufferedImage image;
     public boolean isActive;
     Player player;
@@ -44,41 +46,42 @@ public class GameObject {
         newGameObjects.add(gameObject);
     }
 
-    public static Enemies collideWith(BoxCollider boxCollider){
-        for (GameObject gameObject :gameObjects){
-            if (gameObject instanceof  Enemies){
-                Enemies enemy = (Enemies)gameObject;
-                if (enemy.boxCollider.collideWidth(boxCollider)){
-                    return enemy;
+
+    public static <T extends PhysicsBody> T collideWith(BoxCollider boxCollider , Class <T> cls){
+       for (GameObject gameObject : gameObjects){
+         if (!gameObject.isActive) continue;
+         if(!(gameObject instanceof PhysicsBody)) continue;
+         if(!(gameObject.getClass().equals(cls))) continue;
+         BoxCollider otherBoxCollider = ((PhysicsBody) gameObject).getBoxCollider();
+         if(otherBoxCollider.collideWidth(boxCollider)){
+             return (T)gameObject;
+         }
+       }
+       return  null;
+    }
+
+    public static <T extends  GameObject> T recycle(Class<T> cls) {
+        for (GameObject gameObject : gameObjects) {
+            if (gameObject.getClass().equals(cls)) {
+                if (!gameObject.isActive) {
+                    (gameObject).isActive = true;
+                    return (T) gameObject;
                 }
             }
-    }
+
+        }
+        try {
+            T newGameObject = cls.newInstance();
+            add(newGameObject);
+            return newGameObject;
+        } catch (InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
             return null;
+
+        }
     }
 
-    public static Player collideWithPlayer(BoxCollider boxCollider){
-        for (GameObject gameObject :gameObjects){
-            if (gameObject instanceof  Player){
-                Player player = (Player) gameObject;
-                if (player.boxCollider.collideWidth(boxCollider)){
-                    return player;
-                }
-            }
-        }
-        return null;
-    }
 
-    public static Bullets collideWithBullet(BoxCollider boxCollider){
-        for (GameObject gameObject :gameObjects){
-            if (gameObject instanceof  Bullets){
-                Bullets bullets = (Bullets) gameObject;
-                if (bullets.boxCollider.collideWidth(boxCollider)){
-                    return bullets;
-                }
-            }
-        }
-        return null;
-    }
     public static void remove(GameObject gameObject) {
         gameObjects.remove(gameObject);
     }
@@ -109,3 +112,5 @@ public class GameObject {
 
 
 }
+
+

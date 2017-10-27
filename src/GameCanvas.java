@@ -2,7 +2,10 @@ import bases.GameObject;
 import touhou.*;
 import touhou.enemies.Enemies;
 import touhou.enemies.EnemySpawner;
+import touhou.inputs.InputManager;
 import touhou.player.Player;
+import touhou.player.SupportPlayer;
+import touhou.player.SupportPlayer1;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,6 +18,8 @@ public class GameCanvas extends JPanel {
     BufferedImage backBuffer;
     Graphics backGraphics;
     Player player = new Player();
+    SupportPlayer supportPlayer = new SupportPlayer();
+    SupportPlayer1 supportPlayer1 = new SupportPlayer1();
     BackGround backGround = new BackGround();
     GameWindow window;
 
@@ -25,8 +30,11 @@ public class GameCanvas extends JPanel {
         backBuffer = new BufferedImage(800, 600, BufferedImage.TYPE_INT_ARGB);
         backGraphics = backBuffer.getGraphics();
         GameObject.add(backGround);
+        GameObject.add(supportPlayer);
+        GameObject.add(supportPlayer1);
         GameObject.add(player);
         GameObject.add(new EnemySpawner());
+
 
 
         //1.Load Background
@@ -49,13 +57,13 @@ public class GameCanvas extends JPanel {
     }
 
     public void keyPressed(KeyEvent e) {
-        player.keyPressed(e);
+        InputManager.instance.keyPressed(e);
 
 
     }
 
     public void keyReleased(KeyEvent e) {
-        player.keyReleased(e);
+        InputManager.instance.keyReleased(e);
 
     }
 

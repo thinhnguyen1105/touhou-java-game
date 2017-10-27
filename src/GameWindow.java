@@ -1,3 +1,5 @@
+import touhou.inputs.InputManager;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -24,26 +26,22 @@ public class GameWindow extends JFrame {
         this.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
-                canvas.keyPressed(e);
+                InputManager.instance.keyPressed(e);
             }
 
             @Override
             public void keyPressed(KeyEvent e) {
-                canvas.keyPressed(e);
+                InputManager.instance.keyPressed(e);
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
-                canvas.keyReleased(e);
+                InputManager.instance.keyReleased(e);
             }
         });
 
-
-//        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setContentPane(canvas);
-        //mẹ visible trước - canvas là mẹ
         this.canvas.setVisible(true);
-        //con visible sau - window là con
         this.setVisible(true);
         lasTimeUpade = System.nanoTime();
     }
