@@ -36,7 +36,6 @@ public class EnemyBullets extends GameObject {
         SupportPlayer1 sp1 = GameObject.collideWith(boxCollider, SupportPlayer1.class);
         if( sp1 != null){
             sp1.getHit();
-
             this.isActive = false;
         }
 
