@@ -1,6 +1,5 @@
 package touhou.enemies;
 
-import bases.GameObject;
 import static bases.GameObject.recycle;
 
 public class EnemiesShoot {
@@ -11,10 +10,10 @@ public class EnemiesShoot {
     }
 
 
-    public void run(Enemies owner) {
+    public void run(Enemiestest owner) {
         long currentTime = System.nanoTime();
         if (currentTime - lastTimeUpade >= 900000000) {
-            recycle(EnemyBullets.class).position.set(owner.position.x,owner.position.y +owner.image.getHeight()/2);
+            recycle(EnemyBullets.class).position.set(owner.position.x,owner.position.y +25);
             lastTimeUpade = currentTime;
         }
     }

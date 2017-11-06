@@ -23,7 +23,8 @@ public class PlayerCastSpell  {
             return;
         }
         if (InputManager.instance.xPressed) {
-            recycle(Bullets.class).position.set(owner.position.x, owner.position.y - (owner.image.getHeight()/2));
+
+            recycle(Bullets.class).position.set(owner.position.x, owner.position.y - 25);
             spellDisable = true;
 
         }

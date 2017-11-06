@@ -1,8 +1,6 @@
 package touhou.player;
 
-import bases.GameObject;
-import bases.Utils;
-import bases.Vector2D;
+import bases.*;
 import bases.physics.BoxCollider;
 import bases.physics.PhysicsBody;
 import touhou.inputs.InputManager;
@@ -25,7 +23,13 @@ public class SupportPlayer extends GameObject implements PhysicsBody {
 
         position.set(player.position.x+RADIUS , player.position.y);
         this.boxCollider = new BoxCollider(16,16);
-        image = Utils.loadImage("assets/images/sphere/3.png");
+        this.renderer = new Animation(
+                Utils.loadImage("assets/images/sphere/0.png"),
+                Utils.loadImage("assets/images/sphere/1.png"),
+                Utils.loadImage("assets/images/sphere/2.png"),
+                Utils.loadImage("assets/images/sphere/3.png")
+
+        );
 
     }
 

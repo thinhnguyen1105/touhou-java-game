@@ -1,6 +1,7 @@
 package touhou.enemies;
 
 import bases.GameObject;
+import bases.ImageRender;
 import bases.Utils;
 import bases.Vector2D;
 import bases.physics.BoxCollider;
@@ -20,7 +21,7 @@ public class EnemyBullets extends GameObject {
 
     public EnemyBullets() {
         boxCollider = new BoxCollider(16, 16);
-        image = Utils.loadImage("assets/images/enemies/bullets/cyan.png");
+        this.renderer = new ImageRender("assets/images/enemies/bullets/cyan.png");
 
     }
 
@@ -41,9 +42,11 @@ public class EnemyBullets extends GameObject {
 
         Player player = GameObject.collideWith(boxCollider, Player.class);
         if( player != null){
+//            player.getHit();
             player.getHit();
+            System.out.println("chet");
             this.isActive = false;
-            System.exit(0);
+//            System.exit(0);
         }
 
 

@@ -1,6 +1,5 @@
 import bases.GameObject;
 import touhou.*;
-import touhou.enemies.Enemies;
 import touhou.enemies.EnemySpawner;
 import touhou.inputs.InputManager;
 import touhou.player.Player;

@@ -2,11 +2,9 @@ package bases;
 
 import bases.physics.BoxCollider;
 import bases.physics.PhysicsBody;
-import touhou.enemies.Enemies;
-import touhou.player.Bullets;
+import touhou.enemies.Enemiestest;
 import touhou.player.Player;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Vector;
@@ -14,10 +12,8 @@ import java.util.Vector;
 public class GameObject {
 
     public Vector2D position ;
-    public BufferedImage image;
+    public Renderer renderer;
     public boolean isActive;
-    Player player;
-    Enemies enemy;
 
     static Vector<GameObject> gameObjects = new Vector<>();
     static Vector<GameObject> newGameObjects = new Vector<>();
@@ -34,11 +30,21 @@ public class GameObject {
         newGameObjects.clear();
     }
 
+    public void reset(){
+        isActive = true;
+    }
+
     public static void renderAll(Graphics g) {
         for (GameObject gameObject : gameObjects) {
             if(gameObject.isActive){
                 gameObject.render(g);
             }
+        }
+    }
+
+    public void render(Graphics g){
+        if (renderer != null){
+            renderer.render(g,position);
         }
     }
 
@@ -64,7 +70,7 @@ public class GameObject {
         for (GameObject gameObject : gameObjects) {
             if (gameObject.getClass().equals(cls)) {
                 if (!gameObject.isActive) {
-                    (gameObject).isActive = true;
+                    gameObject.reset();
                     return (T) gameObject;
                 }
             }
@@ -91,14 +97,6 @@ public class GameObject {
         isActive = true;
     }
 
-    public void render(Graphics g) {
-        if (image != null) {
-            g.drawImage(image,
-                    (int) (position.x - (image.getWidth()/2)),
-                    (int) (position.y - (image.getHeight()/2)),
-                    null);
-        }
-    }
 
 
     public void run() {

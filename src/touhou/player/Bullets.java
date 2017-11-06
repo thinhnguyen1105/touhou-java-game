@@ -1,13 +1,15 @@
 package touhou.player;
 
+import bases.Animation;
 import bases.GameObject;
+import bases.ImageRender;
 import bases.Utils;
-import bases.Vector2D;
 import bases.physics.BoxCollider;
 import bases.physics.PhysicsBody;
 import touhou.enemies.Enemies;
+import touhou.enemies.Enemiestest;
 
-import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class Bullets extends GameObject implements PhysicsBody {
 
@@ -15,7 +17,13 @@ public class Bullets extends GameObject implements PhysicsBody {
     public BoxCollider boxCollider;
 
     public Bullets() {
-        image = Utils.loadImage("assets/images/enemies/bullets/red.png");
+        BufferedImage[] images = new BufferedImage[]{
+                Utils.loadImage("assets/images/sphere/0.png"),
+                Utils.loadImage("assets/images/sphere/1.png"),
+                Utils.loadImage("assets/images/sphere/2.png"),
+                Utils.loadImage("assets/images/sphere/3.png")
+        };
+        this.renderer = new Animation(images);
         boxCollider = new BoxCollider(16,16);
     }
 
